@@ -1047,6 +1047,12 @@ function render() {
         この視点は、自分だけでなく大切な人を理解するヒントにもなります。
       </p>
     `;
+
+    // タスクC：令和ゾーン(zone-4, min0/max24)のみレーダーチャートを非表示
+    const radarSection = document.querySelector('.radar-section');
+    radarSection.style.display = 'none';                        // radar-section 本体
+    radarSection.previousElementSibling.style.display = 'none'; // divider③（pattern/radar 間）
+    radarSection.nextElementSibling.style.display = 'none';     // divider④（radar/book 間）
   } else {
     // 上位2カテゴリー表示
     document.getElementById('topCats').innerHTML = `
