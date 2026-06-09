@@ -534,8 +534,6 @@ body::after {
 <div class="divider" id="dividerZonePattern"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
 
 <section class="pattern-section" id="patternSection">
-  <div class="section-title">あなたの特徴</div>
-  <div class="top-cats" id="topCats"></div>
   <div class="pattern-card" id="patternCard"></div>
 </section>
 
@@ -1054,18 +1052,6 @@ function render() {
     // タスクB：令和ゾーンは免責を非表示（変更なし）
     document.getElementById('disclaimerSection').style.display = 'none';
   } else {
-    // 上位2カテゴリー表示
-    document.getElementById('topCats').innerHTML = `
-      <div class="top-cat-badge">
-        <span class="top-cat-rank">最も強い傾向</span>
-        <span class="top-cat-name">${top1.name}</span>
-      </div>
-      <div class="top-cat-badge">
-        <span class="top-cat-rank">2番目の傾向</span>
-        <span class="top-cat-name">${top2.name}</span>
-      </div>
-    `;
-
     // 21パターンマッチング
     const ids = [top1.id, top2.id].sort((a, b) => a - b);
     const key = `${ids[0]}-${ids[1]}`;
