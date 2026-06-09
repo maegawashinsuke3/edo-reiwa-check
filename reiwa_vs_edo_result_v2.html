@@ -1060,7 +1060,7 @@ function render() {
   const msgTemplate = COMMON_MSG;
   document.getElementById('zoneMsgBody').innerHTML =
     msgTemplate +
-    `<div class="key-message">${zone.keyMessage}</div>`;
+    `<span class="heading">あなたへのメッセージ</span><div class="key-message">${zone.keyMessage}</div>`;
 
   // 書籍説明文
   document.getElementById('bookDesc').innerHTML = zone.bookDesc;
