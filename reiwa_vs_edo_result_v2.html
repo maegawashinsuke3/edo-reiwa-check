@@ -605,6 +605,8 @@ body::after {
   </div>
 </section>
 
+<div class="disclaimer" id="disclaimerSection">⚠️ このチェックは医療行為ではありません。深刻な心理的苦痛を感じている場合は、専門の医療機関やカウンセリングサービスにご相談ください。</div>
+
 <footer class="footer">
   <p class="footer-copy">© 2026 NPO法人 他力本願研究所｜令和脳 vs 江戸脳 思考OSチェック</p>
   <div class="footer-links">
@@ -1050,6 +1052,9 @@ function render() {
     radarSection.style.display = 'none';                        // radar-section 本体
     radarSection.previousElementSibling.style.display = 'none'; // divider③（pattern/radar 間）
     radarSection.nextElementSibling.style.display = 'none';     // divider④（radar/book 間）
+
+    // タスクB：令和ゾーンは免責を非表示
+    document.getElementById('disclaimerSection').style.display = 'none';
   } else {
     // 上位2カテゴリー表示
     document.getElementById('topCats').innerHTML = `
@@ -1080,8 +1085,7 @@ function render() {
   const msgTemplate = COMMON_MSG;
   document.getElementById('zoneMsgBody').innerHTML =
     msgTemplate +
-    `<div class="key-message">${zone.keyMessage}</div>` +
-    `<div class="disclaimer">⚠️ このチェックは医療行為ではありません。深刻な心理的苦痛を感じている場合は、専門の医療機関やカウンセリングサービスにご相談ください。</div>`;
+    `<div class="key-message">${zone.keyMessage}</div>`;
 
   // 書籍説明文
   document.getElementById('bookDesc').innerHTML = zone.bookDesc;
