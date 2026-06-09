@@ -531,25 +531,25 @@ body::after {
   <div class="zone-msg-body" id="zoneMsgBody"></div>
 </section>
 
-<div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+<div class="divider" id="dividerZonePattern"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
 
-<section class="pattern-section">
+<section class="pattern-section" id="patternSection">
   <div class="section-title">あなたの特徴</div>
   <div class="top-cats" id="topCats"></div>
   <div class="pattern-card" id="patternCard"></div>
 </section>
 
-<div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+<div class="divider" id="dividerPatternRadar"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
 
 <!-- レーダーチャート -->
-<section class="radar-section">
+<section class="radar-section" id="radarSection">
   <div class="section-title">7カテゴリー傾向チャート</div>
   <div class="radar-wrap">
     <canvas id="radarChart"></canvas>
   </div>
 </section>
 
-<div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+<div class="divider" id="dividerRadarBook"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
 
 <!-- 書籍 -->
 <section class="book-section">
@@ -1043,17 +1043,15 @@ function render() {
 
   if (edoPct <= 24) {
     // タスクA：令和ゾーンは旧版残骸テキストごと pattern-section を非表示
-    patternSection.style.display = 'none';                          // pattern-section 本体（旧版テキスト）
-    patternSection.previousElementSibling.style.display = 'none';   // divider②（zone-msg/pattern 間）
-    patternSection.nextElementSibling.style.display = 'none';       // divider③（pattern/radar 間, Cで非表示済み・再代入は無害）
+    document.getElementById('patternSection').style.display = 'none';      // pattern-section 本体
+    document.getElementById('dividerZonePattern').style.display = 'none';  // divider② zone-msg/pattern間
+    document.getElementById('dividerPatternRadar').style.display = 'none'; // divider③ pattern/radar間
 
     // タスクC：令和ゾーン(zone-4, min0/max24)のみレーダーチャートを非表示
-    const radarSection = document.querySelector('.radar-section');
-    radarSection.style.display = 'none';                        // radar-section 本体
-    radarSection.previousElementSibling.style.display = 'none'; // divider③（pattern/radar 間）
-    radarSection.nextElementSibling.style.display = 'none';     // divider④（radar/book 間）
+    document.getElementById('radarSection').style.display = 'none';        // radar-section 本体
+    document.getElementById('dividerRadarBook').style.display = 'none';    // divider④ radar/book間
 
-    // タスクB：令和ゾーンは免責を非表示
+    // タスクB：令和ゾーンは免責を非表示（変更なし）
     document.getElementById('disclaimerSection').style.display = 'none';
   } else {
     // 上位2カテゴリー表示
