@@ -1040,13 +1040,10 @@ function render() {
   const dividerAfterScore = document.querySelectorAll('.divider')[0];
 
   if (edoPct <= 24) {
-    patternSection.innerHTML = `
-      <p style="font-family:'Noto Serif JP',serif; font-size:15px; color:var(--text-sub); line-height:2.2; text-align:center; padding: 20px 0;">
-        あなたは、朱子学OSの影響は比較的小さいようです。<br>
-        ただ、周囲にはこうした思考で苦しんでいる人がいるかもしれません。<br>
-        この視点は、自分だけでなく大切な人を理解するヒントにもなります。
-      </p>
-    `;
+    // タスクA：令和ゾーンは旧版残骸テキストごと pattern-section を非表示
+    patternSection.style.display = 'none';                          // pattern-section 本体（旧版テキスト）
+    patternSection.previousElementSibling.style.display = 'none';   // divider②（zone-msg/pattern 間）
+    patternSection.nextElementSibling.style.display = 'none';       // divider③（pattern/radar 間, Cで非表示済み・再代入は無害）
 
     // タスクC：令和ゾーン(zone-4, min0/max24)のみレーダーチャートを非表示
     const radarSection = document.querySelector('.radar-section');
