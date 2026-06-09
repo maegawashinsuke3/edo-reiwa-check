@@ -526,18 +526,15 @@ body::after {
 <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
 
 <!-- ゾーンメッセージ -->
+<section class="about-you-zone" id="aboutYouZone">
 <section class="zone-msg-section">
   <div class="section-title">あなたへのメッセージ</div>
   <div class="zone-msg-body" id="zoneMsgBody"></div>
 </section>
 
-<div class="divider" id="dividerZonePattern"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
-
 <section class="pattern-section" id="patternSection">
   <div class="pattern-card" id="patternCard"></div>
 </section>
-
-<div class="divider" id="dividerPatternRadar"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
 
 <!-- レーダーチャート -->
 <section class="radar-section" id="radarSection">
@@ -545,6 +542,7 @@ body::after {
   <div class="radar-wrap">
     <canvas id="radarChart"></canvas>
   </div>
+</section>
 </section>
 
 <div class="divider" id="dividerRadarBook"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
@@ -1042,8 +1040,6 @@ function render() {
   if (edoPct <= 24) {
     // タスクA：令和ゾーンは旧版残骸テキストごと pattern-section を非表示
     document.getElementById('patternSection').style.display = 'none';      // pattern-section 本体
-    document.getElementById('dividerZonePattern').style.display = 'none';  // divider② zone-msg/pattern間
-    document.getElementById('dividerPatternRadar').style.display = 'none'; // divider③ pattern/radar間
 
     // タスクC：令和ゾーン(zone-4, min0/max24)のみレーダーチャートを非表示
     document.getElementById('radarSection').style.display = 'none';        // radar-section 本体
