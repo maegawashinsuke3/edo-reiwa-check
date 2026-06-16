@@ -349,7 +349,7 @@ body::after {
   display: flex; gap: 28px; align-items: center;
 }
 .book-cover-img {
-  width: 90px; height: auto; flex-shrink: 0;
+  width: 130px; height: auto; flex-shrink: 0;
   border-radius: 2px;
   box-shadow: 4px 4px 16px rgba(0,0,0,0.5);
   object-fit: cover;
@@ -382,41 +382,10 @@ body::after {
   font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 700;
   cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em;
 }
-.btn-share.x { background: #000; color: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.4); }
-.btn-share.x:hover { background: #222; transform: translateY(-2px); }
 .btn-share.copy { background: transparent; border: 1px solid rgba(200,134,10,0.3); color: var(--text-sub); }
 .btn-share.copy:hover { border-color: rgba(200,134,10,0.6); color: var(--text-main); transform: translateY(-2px); }
-.btn-share.line { background: #06C755; color: #fff; box-shadow: 0 2px 12px rgba(6,199,85,0.35); }
-.btn-share.line:hover { background: #05b34d; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(6,199,85,0.5); }
 .share-copied { font-size: 12px; color: var(--teal); margin-top: 12px; opacity: 0; transition: opacity 0.3s; }
 .share-copied.show { opacity: 1; }
-
-/* インスタ用 */
-.insta-wrap {
-  margin-top: 32px;
-  border-top: 1px solid rgba(200,134,10,0.12);
-  padding-top: 28px;
-}
-.insta-label {
-  font-size: 11px; letter-spacing: 0.35em; color: var(--text-dim);
-  margin-bottom: 16px;
-}
-.insta-preview-wrap {
-  display: flex; justify-content: center; margin-bottom: 16px;
-}
-.insta-btns {
-  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
-}
-.btn-share.insta {
-  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-  color: #fff;
-  box-shadow: 0 2px 12px rgba(131,58,180,0.35);
-}
-.btn-share.insta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(131,58,180,0.5); }
-.btn-share.caption { background: transparent; border: 1px solid rgba(200,134,10,0.3); color: var(--text-sub); }
-.btn-share.caption:hover { border-color: rgba(200,134,10,0.6); color: var(--text-main); transform: translateY(-2px); }
-.insta-caption-copied { font-size: 12px; color: var(--teal); margin-top: 10px; opacity: 0; transition: opacity 0.3s; }
-.insta-caption-copied.show { opacity: 1; }
 
 .kizuki-wrap { margin-top: 32px; border-top: 1px solid rgba(200,134,10,0.15); padding-top: 28px; }
 .kizuki-label { font-family: 'Noto Serif JP', serif; font-size: 16px; font-weight: 700; color: var(--gold-pale); text-align: center; margin-bottom: 16px; letter-spacing: 0.1em; }
@@ -424,8 +393,6 @@ body::after {
 .kizuki-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 .btn-share.kizuki-dl { background: linear-gradient(135deg, #C8860A, #e8a82a, #C8860A); color: #1a1208; font-weight: 700; box-shadow: 0 2px 12px rgba(200,134,10,0.35); }
 .btn-share.kizuki-dl:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200,134,10,0.5); }
-.kizuki-caption-copied { font-size: 12px; color: var(--teal); margin-top: 10px; text-align: center; opacity: 0; transition: opacity 0.3s; }
-.kizuki-caption-copied.show { opacity: 1; }
 
 .footer {
   position: relative; z-index: 1;
@@ -562,9 +529,7 @@ body::after {
 <section class="share-section">
   <p class="share-title">結果をシェアする</p>
   <div class="share-btns">
-    <button class="btn-share x" onclick="shareX()">𝕏 ポストする</button>
-    <button class="btn-share line" onclick="shareLine()">LINE シェア</button>
-    <button class="btn-share copy" onclick="copyResult()">🔗 URLをコピー</button>
+    <button class="btn-share copy" onclick="copyCheckLink()">🔗 チェックのリンクをコピー</button>
   </div>
   <p class="share-copied" id="shareCopied">コピーしました！</p>
 
@@ -576,22 +541,7 @@ body::after {
     </div>
     <div class="kizuki-btns">
       <button class="btn-share kizuki-dl" onclick="downloadKizukiImage()">📸 画像を保存</button>
-      <button class="btn-share caption" onclick="copyKizukiCaption()">📋 キャプションをコピー</button>
     </div>
-    <p class="kizuki-caption-copied" id="kizukiCaptionCopied">キャプションをコピーしました！</p>
-  </div>
-
-  <!-- インスタ用 -->
-  <div class="insta-wrap">
-    <p class="insta-label">INSTAGRAM</p>
-    <div class="insta-preview-wrap">
-      <canvas id="instaCanvas" style="border-radius:4px; max-width:280px; width:100%;"></canvas>
-    </div>
-    <div class="insta-btns">
-      <button class="btn-share insta" onclick="downloadInstaImage()">📸 画像を保存</button>
-      <button class="btn-share caption" onclick="copyInstaCaption()">📋 キャプションをコピー</button>
-    </div>
-    <p class="insta-caption-copied" id="instaCaptionCopied">キャプションをコピーしました！</p>
   </div>
 </section>
 
@@ -822,7 +772,6 @@ const ZONES = [
     badge: '🔴🔴 江戸朱子学OS',
     intro: 'あなたは、朱子学OSの影響をかなり強く受けています。',
     keyMessage: `もし今、あなたが生きづらさを強く感じているなら、それはあなたの努力不足ではありません。自分よりも周囲を優先して応え続けてきたのかもしれないし、「もっと上へ」「できる自分でいなければ」と自分を駆り立て続けてきたのかもしれない。もしそうなら、あなたは長い間、無理を重ねてきたのです。まず、<strong>これ以上自分を責めないでください。</strong><br><br>その苦しさには、構造的な背景があります。今のあなたの「考え方のクセ」そのものが、長い年月をかけて刷り込まれた「朱子学OS」によって形づくられてきた ── そう考えることもできます。だとすれば、それはあなたが生まれ持った性格でも、あなたの落ち度でもありません。その仕組みが見えてくれば、<strong>クセは変えていけます。</strong><br><br>日常生活に支障が出ている場合は、専門機関への相談も大切な選択肢です。少し落ち着いたとき、「なぜ自分はこうなのか」をもっと深く知りたくなったら、ぜひこの後の書籍案内を読んでみてください。`,
-    shareText: 'あなたの鬱は、徳川家康のせいです。\n\n令和脳vs江戸脳チェック、やってみた。\n令和脳 {{reiwaPct}}% ／ 江戸脳 {{edoPct}}%\n\n「目上に従え」「我慢しろ」「空気を読め」\n江戸幕府が400年前に仕込んだこの掟が、ストレスの元凶なのかも。\nhttps://tariki-labo.github.io/edo-reiwa/reiwa_vs_edo_top_v2.html?utm_source=x&utm_medium=social&utm_campaign=os_check_share&utm_content=edo\n#朱子ハラ #朱子学ハラスメント',
     bookDesc: '「なぜ自分はこうなのか」「ではどうすればいいのか」── その答えを、この本に書きました。<br><br>染みついた「朱子学OS」を入れ替えるための、具体的な道具を用意しています。例えば、親からの理不尽な言葉による攻撃を無効化する「朱子ハラメガネ」。「これは誰の問題なのか」を見極めて、他人の課題を背負い込むのをやめる「課題の分離」。あるいは、「人は皆、不完全なアホである」という前提から完璧主義を手放す、法然・親鸞の他力本願をベースにした「性アホ説」。<br><br>なぜ自分がこうなったのかという全体像から、今日から使える具体的な手順まで。人生の底から戻ってきた著者が、同じ場所にいるかもしれないあなたに向けて書いた本です。<strong>一人で抱えなくて大丈夫。</strong>まずは、この本を開いてみてください（途中まで無料で読むことができます）。'
   },
   {
@@ -831,7 +780,6 @@ const ZONES = [
     badge: '🔴 昭和レガシーOS',
     intro: 'あなたは、朱子学OSの影響を強く受けています。',
     keyMessage: `もし今、あなたが生きづらさを感じているなら、それはあなたの努力不足ではありません。自分よりも周囲を優先して応え続けてきたのかもしれないし、「もっと上へ」「できる自分でいなければ」と自分を駆り立て続けてきたのかもしれない。もしそうなら、あなたは長い間、無理を重ねてきたのです。まず、<strong>これ以上自分を責めないでください。</strong><br><br>その苦しさには、構造的な背景があります。今のあなたの「考え方のクセ」そのものが、長い年月をかけて刷り込まれた「朱子学OS」によって形づくられてきた ── そう考えることもできます。だとすれば、それはあなたが生まれ持った性格でも、あなたの落ち度でもありません。その仕組みが見えてくれば、<strong>クセは変えていけます。</strong><br><br>「なぜ自分はこうなのか」をもっと深く知りたくなったら、ぜひこの後の書籍案内を読んでみてください。`,
-    shareText: 'あなたの鬱は、徳川家康のせいです。\n\n令和脳vs江戸脳チェック、やってみた。\n令和脳 {{reiwaPct}}% ／ 江戸脳 {{edoPct}}%\n\n「目上に従え」「我慢しろ」「空気を読め」\n江戸幕府が400年前に仕込んだこの掟が、ストレスの元凶なのかも。\nhttps://tariki-labo.github.io/edo-reiwa/reiwa_vs_edo_top_v2.html?utm_source=x&utm_medium=social&utm_campaign=os_check_share&utm_content=showa\n#朱子ハラ #朱子学ハラスメント',
     bookDesc: '「なぜ自分はこうなのか」「ではどうすればいいのか」── その答えを、この本に書きました。<br><br>染みついた「朱子学OS」を入れ替えるための、具体的な道具を用意しています。例えば、親からの理不尽な言葉による攻撃を無効化する「朱子ハラメガネ」。「これは誰の問題なのか」を見極めて、他人の課題を背負い込むのをやめる「課題の分離」。あるいは、「人は皆、不完全なアホである」という前提から完璧主義を手放す、法然・親鸞の他力本願をベースにした「性アホ説」。<br><br>なぜ自分がこうなったのかという全体像から、今日から使える具体的な手順まで。人生の底から戻ってきた著者が、生きづらさを抱えるあなたに向けて書いた本です。<strong>一人で抱えなくて大丈夫。</strong>まずは、この本を開いてみてください（途中まで無料で読むことができます）。'
   },
   {
@@ -840,7 +788,6 @@ const ZONES = [
     badge: '🟡 平成パッチOS',
     intro: 'あなたは、朱子学OSの影響を一定程度受けています。',
     keyMessage: `私たちが生きてきた社会では、上下関係を守る人が評価され、空気を読む人が重宝され、「〜すべき」を守る人が真面目だとされてきました。その環境で摩擦を減らし、安全に生きるためには、そうした振る舞いを身につけることは、確かに合理的な選択でした。<br><br>もしあなたに思い当たる振る舞いがあったとしても、それは弱さではありません。環境にうまく適応してきた証です。<br><br>そして今、あなたは恐らく、先ほど読んだ「二重OSのバグ」（古い朱子学OSと新しい近代民主OSの板挟み）を、生々しく感じているのではないでしょうか。「これはおかしい」と気づけるのに、おかしいと思いながら合わせなければ角が立つ。その狭間で、今も消耗している ── <strong>あなたは古いOSと新しいOSのちょうど境目に立っているのです。</strong><br><br>古い「朱子学OS」に合わせ続けるのか。それとも「近代民主OS」に乗り換えるのか。一度立ち止まって考えてみてもいいかもしれません。<br><br>今回の分析は、その入り口です。「なぜ自分はこうなのか」をもっと深く知りたくなったら、ぜひこの後の書籍案内を読んでみてください。`,
-    shareText: 'あなたの鬱は、徳川家康のせいです。\n\n令和脳vs江戸脳チェックをやってみた。\n令和脳 {{reiwaPct}}% ／ 江戸脳 {{edoPct}}%\n\n「有給は権利」→休むと白い目\n「自分で考えろ」→動くと「上に従え」\n\nこの板挟み、日本社会の\"二重OSのバグ\"が原因らしい。\n\nhttps://tariki-labo.github.io/edo-reiwa/reiwa_vs_edo_top_v2.html?utm_source=x&utm_medium=social&utm_campaign=os_check_share&utm_content=heisei\n\n#朱子ハラ #朱子学ハラスメント',
     bookDesc: '「なぜ自分はこうなのか」「ではどうすればいいのか」── その答えを、この本に書きました。<br><br>染みついた「朱子学OS」を見抜き、入れ替えていくための道具があります。「上に従え」という朱子学の理不尽な言葉を「時代遅れな掟の自動出力」に翻訳して見抜く「朱子ハラメガネ」。「滅私奉公」で曖昧になった自分と他者の境目を引き直す「課題の分離」。こうした道具で、あの「二重OSのバグ」による板挟みから、<strong>自分軸で選べる状態へと抜け出していけます。</strong><br><br>我慢し続けるのでも、爆発するのでもなく ── 違和感を、理解と行動に変えるために。まずは、この本を開いてみてください（途中まで無料で読むことができます）。'
   },
   {
@@ -849,7 +796,6 @@ const ZONES = [
     badge: '🟢 令和2.0OS',
     intro: 'あなたは朱子学OSの影響が比較的少なく、自分の意思で人生を選択する傾向にあるようです。',
     keyMessage: `あなたの心の土台は、しっかりしています。周囲の空気や上下関係よりも、自分の感覚を信じられる。「それ、おかしくない？」と思ったことに、ちゃんと「おかしい」と気づける ── とても健やかな状態です。<br><br>そして、その健やかなあなたは、たぶんもう気づいているはずです。この社会、どこかバグってる、と。その正体が、さきほどの「二重OSのバグ」です。<br><br>このバグがある限り、今は健やかなあなたでも、<strong>決して安全圏にいるわけではありません。</strong>あなたのOSが正常だからこそ、朱子学OSの理不尽さを人一倍鋭く感じ取ってしまう。そんなあなたが朱子学OS濃度の濃いコミュニティに身を置くことになると、心がすり減って、ある日動けなくなることもありえます。<br><br>昨今社会問題になっている令和の不登校の増加、若者の早期離職、止まらない地方からの若い女性の流出 ── これらの背景にも「二重OSのバグ」があるのではないか、私はそう考えています。<br><br>だからこそ、これはあなた個人が我慢して済む問題ではありません。社会で動いている古いOSそのものを、書き換えていくしかない。そして、<strong>すでに新しいOSで生きているあなたのような人こそ、その担い手になれる。</strong>自分の心を守るためにも、まだ気づいていない誰かを守るためにも。`,
-    shareText: '令和脳vs江戸脳チェックやってみた。\n令和脳 {{reiwaPct}}% ／ 江戸脳 {{edoPct}}%\n\n日本人の生きづらさの正体が見えた気がする。「自分で考えろ」と「黙って従え」が同時に飛び交う「二重OSのバグ」のせい。不登校も若者の早期離職も、根っこは同じ江戸由来。\nhttps://tariki-labo.github.io/edo-reiwa/reiwa_vs_edo_top_v2.html?utm_source=x&utm_medium=social&utm_campaign=os_check_share&utm_content=reiwa\n#朱子ハラ #朱子学ハラスメント',
     bookDesc: '「もっと深く知りたい」── そう思ったあなたへ。この本は、あなたがうっすら感じてきた違和感の全体像を解き明かす一冊です。<br><br>なぜ戦後の日本社会には、判断軸が正反対の2つのOSが走ることになったのか。その歴史的な成り立ちから、「二重OSのバグ」が個人と社会に何を引き起こしているのかまで。バグの構造を、根本から理解できます。<br><br>もちろん、自分の身を守る道具も手に入ります。親や上司からの理不尽な言葉を「時代遅れな掟の自動出力」と見抜く「朱子ハラメガネ」。「滅私奉公」で曖昧になった自分と他者の境目を引き直す「課題の分離」。古いOSが濃い場所に身を置いても、これらの道具で心がすり減らずにいられるようにします。<br><br>そして ── この構造が見えた人は、<strong>社会を変える側に回れます。</strong>この本は、いつの日かこの生きづらい社会のOSを書き換えるための、羅針盤でもあります。まずは開いてみてください（途中まで無料で読むことができます）。'
   }
 ];
@@ -907,34 +853,7 @@ const COMMON_MSG = `
 
 // ========== スコア取得 ==========
 function getResult() {
-  // 1. クエリパラメータからスコアを取得
-  const params = new URLSearchParams(window.location.search);
-  const qReiwa = params.get('reiwa');
-  const qEdo = params.get('edo');
-  if (qReiwa !== null && qEdo !== null) {
-    const reiwaPct = parseInt(qReiwa, 10);
-    const edoPct = parseInt(qEdo, 10);
-    if (!isNaN(reiwaPct) && !isNaN(edoPct)) {
-      // クエリパラメータにはcatScoresがないのでダミーを返す
-      try {
-        const stored = sessionStorage.getItem('checkResult');
-        if (stored) {
-          const s = JSON.parse(stored);
-          if (s.reiwaPct === reiwaPct && s.edoPct === edoPct) return s;
-        }
-      } catch(e) {}
-      return { reiwaPct, edoPct, catScores: {
-        1: { name: '権威服従', total: 0, count: 3 },
-        2: { name: '集団同調', total: 0, count: 3 },
-        3: { name: '課題の混同', total: 0, count: 3 },
-        4: { name: '自己否定', total: 0, count: 3 },
-        5: { name: '完璧主義', total: 0, count: 3 },
-        6: { name: '認知の硬直性', total: 0, count: 3 },
-        7: { name: '世間体・恥の文化', total: 0, count: 3 },
-      }};
-    }
-  }
-  // 2. sessionStorageから取得
+  // sessionStorageから取得
   try {
     const stored = sessionStorage.getItem('checkResult');
     if (stored) return JSON.parse(stored);
@@ -954,20 +873,11 @@ function getResult() {
   };
 }
 
-function getShareUrl() {
-  const result = getResult();
-  const base = window.location.origin + window.location.pathname;
-  return `${base}?reiwa=${result.reiwaPct}&edo=${result.edoPct}`;
-}
 
 // ========== 描画 ==========
 function render() {
   const result = getResult();
   const { edoPct, reiwaPct, catScores } = result;
-
-  // URLにスコアパラメータを反映
-  const newUrl = `${window.location.pathname}?reiwa=${reiwaPct}&edo=${edoPct}`;
-  history.replaceState(null, '', newUrl);
 
   // スコアカウントアップ
   animateCount('reiwaPct', reiwaPct);
@@ -1064,9 +974,6 @@ function render() {
   // 書籍説明文
   document.getElementById('bookDesc').innerHTML = zone.bookDesc;
 
-  // インスタ用canvas初期化
-  initInstaCanvas();
-
   // 気づきカード初期化
   initKizukiCanvas();
 }
@@ -1082,152 +989,15 @@ function animateCount(id, target) {
   }, 16);
 }
 
-function shareX() {
-  const result = getResult();
-  const zone = ZONES.find(z => result.edoPct >= z.min && result.edoPct <= z.max) || ZONES[1];
-  const text = zone.shareText
-    .replace('{{reiwaPct}}', result.reiwaPct)
-    .replace('{{edoPct}}', result.edoPct);
-  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
-}
-
-function shareLine() {
+function copyCheckLink() {
   const url = 'https://tariki-labo.github.io/edo-reiwa/reiwa_vs_edo_top_v2.html';
-  const text = 'これやってみて。\n江戸時代の"掟"が、令和の私たちのメンタルを壊してるらしい。\n自分の中にどれくらい残ってるか、3分でわかるよ。\n' + url;
-  window.open(`https://line.me/R/share?text=${encodeURIComponent(text)}`, '_blank');
-}
-
-function copyResult() {
-  navigator.clipboard.writeText(getShareUrl()).then(() => {
+  navigator.clipboard.writeText(url).then(() => {
+    gtag('event', 'copy_check_link');
     const el = document.getElementById('shareCopied');
     el.classList.add('show');
     setTimeout(() => el.classList.remove('show'), 2500);
   });
 }
-
-// ========== インスタ用画像生成 ==========
-function drawInstaCanvas(canvas, result, zone) {
-  const S = 1080; // 正方形1080px
-  canvas.width = S;
-  canvas.height = S;
-  const ctx = canvas.getContext('2d');
-
-  // 背景
-  ctx.fillStyle = '#1a1208';
-  ctx.fillRect(0, 0, S, S);
-
-  // ドットパターン
-  ctx.fillStyle = 'rgba(200,134,10,0.07)';
-  for (let x = 20; x < S; x += 40) {
-    for (let y = 20; y < S; y += 40) {
-      ctx.beginPath();
-      ctx.arc(x, y, 1.5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-
-  // 外枠
-  ctx.strokeStyle = 'rgba(200,134,10,0.25)';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(48, 48, S - 96, S - 96);
-
-  // 上部ライン装飾
-  const grad = ctx.createLinearGradient(100, 0, S - 100, 0);
-  grad.addColorStop(0, 'transparent');
-  grad.addColorStop(0.5, 'rgba(200,134,10,0.5)');
-  grad.addColorStop(1, 'transparent');
-  ctx.strokeStyle = grad;
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(100, 160); ctx.lineTo(S - 100, 160); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(100, S - 160); ctx.lineTo(S - 100, S - 160); ctx.stroke();
-
-  // 帯コピー
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#f0e4cc';
-  ctx.font = `bold 38px 'Noto Serif JP', serif`;
-  ctx.fillText('あなたの鬱は、', S / 2, 240);
-  ctx.fillText('徳川家康のせいです。', S / 2, 296);
-
-  // 区切りダイヤ
-  ctx.save();
-  ctx.translate(S / 2, 356);
-  ctx.rotate(Math.PI / 4);
-  ctx.fillStyle = '#C8860A';
-  ctx.fillRect(-6, -6, 12, 12);
-  ctx.restore();
-
-  // スコア表示
-  ctx.font = `900 140px 'Noto Serif JP', serif`;
-  ctx.fillStyle = '#5ab8ba';
-  ctx.fillText(result.reiwaPct + '%', S / 2 - 200, 520);
-  ctx.fillStyle = 'rgba(90,70,40,0.8)';
-  ctx.font = `bold 48px 'Noto Serif JP', serif`;
-  ctx.fillText('vs', S / 2, 490);
-  ctx.font = `900 140px 'Noto Serif JP', serif`;
-  ctx.fillStyle = '#C8860A';
-  ctx.fillText(result.edoPct + '%', S / 2 + 200, 520);
-
-  // ラベル
-  ctx.font = `28px 'Noto Sans JP', sans-serif`;
-  ctx.fillStyle = '#5ab8ba';
-  ctx.fillText('令和脳', S / 2 - 200, 570);
-  ctx.fillStyle = '#C8860A';
-  ctx.fillText('江戸脳', S / 2 + 200, 570);
-
-  // ゾーンバッジ背景
-  const badgeW = 560, badgeH = 72;
-  const badgeX = (S - badgeW) / 2;
-  ctx.fillStyle = 'rgba(200,134,10,0.12)';
-  ctx.strokeStyle = 'rgba(200,134,10,0.5)';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.rect(badgeX, 620, badgeW, badgeH);
-  ctx.fill(); ctx.stroke();
-
-  ctx.font = `bold 34px 'Noto Serif JP', serif`;
-  ctx.fillStyle = '#f5e6c8';
-  ctx.fillText(zone.badge, S / 2, 666);
-
-  // 下部タイトル
-  ctx.font = `26px 'Noto Serif JP', serif`;
-  ctx.fillStyle = 'rgba(160,140,106,0.7)';
-  ctx.fillText('令和脳 vs 江戸脳｜思考OSチェック', S / 2, 780);
-
-  // URL
-  ctx.font = `22px 'Noto Sans JP', sans-serif`;
-  ctx.fillStyle = 'rgba(143,217,218,0.6)';
-  ctx.fillText('tariki-labo.github.io/edo-reiwa/', S / 2, 830);
-}
-
-function initInstaCanvas() {
-  const result = getResult();
-  const zone = ZONES.find(z => result.edoPct >= z.min && result.edoPct <= z.max) || ZONES[1];
-  const canvas = document.getElementById('instaCanvas');
-  drawInstaCanvas(canvas, result, zone);
-}
-
-function downloadInstaImage() {
-  const result = getResult();
-  const zone = ZONES.find(z => result.edoPct >= z.min && result.edoPct <= z.max) || ZONES[1];
-  const offscreen = document.createElement('canvas');
-  drawInstaCanvas(offscreen, result, zone);
-  const a = document.createElement('a');
-  a.href = offscreen.toDataURL('image/png');
-  a.download = '令和脳vs江戸脳_チェック結果.png';
-  a.click();
-}
-
-function copyInstaCaption() {
-  const result = getResult();
-  const zone = ZONES.find(z => result.edoPct >= z.min && result.edoPct <= z.max) || ZONES[1];
-  const text = `あなたの鬱は、徳川家康のせいです。\n\n令和脳 vs 江戸脳｜思考OSチェックをやってみました！\n\n令和脳 ${result.reiwaPct}% ／ 江戸脳 ${result.edoPct}%\nチェック結果：${zone.badge}\n\nあなたの思考OSは何年製？\nhttps://tariki-labo.github.io/edo-reiwa/reiwa_vs_edo_top_v2.html\n.\n#朱子学ハラスメント #朱子ハラ #思考OSチェック #令和脳江戸脳 #生きづらさ #朱子学OS`;
-  navigator.clipboard.writeText(text).then(() => {
-    const el = document.getElementById('instaCaptionCopied');
-    el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 2500);
-  });
-}
-
 // ========== 気づきカード ==========
 function getTopCategory() {
   const result = getResult();
@@ -1366,18 +1136,6 @@ function downloadKizukiImage() {
   a.href = offscreen.toDataURL('image/png');
   a.download = '気づきカード_' + catName + '.png';
   a.click();
-}
-
-function copyKizukiCaption() {
-  const topCatId = getTopCategory();
-  const catName = CAT_NAMES[topCatId] || '権威服従';
-  const catMsg = KIZUKI_MESSAGES[topCatId] || KIZUKI_MESSAGES[1];
-  const text = `あなたの中で一番強く動いていたOS：${catName}\n\n${catMsg}\n\nそれは、あなたの性格のせいじゃありません。\n\n令和脳vs江戸脳 思考OSチェック\nhttps://tariki-labo.github.io/edo-reiwa/reiwa_vs_edo_top_v2.html\n.\n#朱子学ハラスメント #朱子ハラ #思考OSチェック`;
-  navigator.clipboard.writeText(text).then(() => {
-    const el = document.getElementById('kizukiCaptionCopied');
-    el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 2500);
-  });
 }
 
 render();
