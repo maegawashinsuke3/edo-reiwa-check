@@ -222,14 +222,14 @@ body::after {
   position: relative; z-index: 1;
   padding: 16px 20px; max-width: 700px; margin: 0 auto;
 }
-.section-title {
+.section-title, .share-title {
   text-align: center; font-family: 'Noto Serif JP', serif;
   font-size: 15px; letter-spacing: 0.4em; color: var(--teal);
   margin-bottom: 32px;
   display: flex; align-items: center; gap: 16px;
   background: rgba(0,178,169,0.07); padding: 10px 16px; border-radius: 2px;
 }
-.section-title::before, .section-title::after {
+.section-title::before, .section-title::after, .share-title::before, .share-title::after {
   content: ''; flex: 1; height: 1px;
   background: linear-gradient(to right, transparent, rgba(143,217,218,0.3), transparent);
 }
@@ -374,7 +374,6 @@ body::after {
   position: relative; z-index: 1;
   padding: 40px 20px 80px; max-width: 700px; margin: 0 auto; text-align: center;
 }
-.share-title { font-family: 'Noto Serif JP', serif; font-size: 15px; color: var(--teal); letter-spacing: 0.4em; margin-bottom: 20px; }
 .share-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 .btn-share {
   display: inline-flex; align-items: center; gap: 8px;
@@ -1084,9 +1083,9 @@ function drawKizukiCard(canvas, catName, catMsg) {
 
   // メッセージ本文（自動折り返し）
   ctx.fillStyle = '#f0e4cc';
-  ctx.font = "28px 'Noto Serif JP', serif";
+  ctx.font = "38px 'Noto Serif JP', serif";
   ctx.textAlign = 'center';
-  const lastY = wrapText(ctx, catMsg, S / 2, 470, S - 200, 46);
+  const lastY = wrapText(ctx, catMsg, S / 2, 470, S - 200, 62);
 
   // 下部ライン装飾
   const bottomLineY = Math.max(lastY + 60, 750);
