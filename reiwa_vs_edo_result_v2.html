@@ -386,13 +386,6 @@ body::after {
 .share-copied { font-size: 12px; color: var(--teal); margin-top: 12px; opacity: 0; transition: opacity 0.3s; }
 .share-copied.show { opacity: 1; }
 
-.kizuki-wrap { margin-top: 32px; border-top: 1px solid rgba(200,134,10,0.15); padding-top: 28px; }
-.kizuki-label { font-family: 'Noto Serif JP', serif; font-size: 16px; font-weight: 700; color: var(--gold-pale); text-align: center; margin-bottom: 16px; letter-spacing: 0.1em; }
-.kizuki-preview-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
-.kizuki-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.btn-share.kizuki-dl { background: linear-gradient(135deg, #C8860A, #e8a82a, #C8860A); color: #1a1208; font-weight: 700; box-shadow: 0 2px 12px rgba(200,134,10,0.35); }
-.btn-share.kizuki-dl:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200,134,10,0.5); }
-
 .footer {
   position: relative; z-index: 1;
   padding: 24px 40px; border-top: 1px solid rgba(200,134,10,0.1);
@@ -531,17 +524,6 @@ body::after {
     <button class="btn-share copy" onclick="copyCheckLink()">🔗 OSチェックのリンクをコピー</button>
   </div>
   <p class="share-copied" id="shareCopied">コピーしました！</p>
-
-  <!-- 気づきカード -->
-  <div class="kizuki-wrap">
-    <p class="kizuki-label">あなたの気づきカード</p>
-    <div class="kizuki-preview-wrap">
-      <canvas id="kizukiCanvas" style="border-radius:4px; max-width:280px; width:100%;"></canvas>
-    </div>
-    <div class="kizuki-btns">
-      <button class="btn-share kizuki-dl" onclick="downloadKizukiImage()">📸 画像を保存</button>
-    </div>
-  </div>
 </section>
 
 <div class="disclaimer" id="disclaimerSection">⚠️ このチェックは医療行為ではありません。深刻な心理的苦痛を感じている場合は、専門の医療機関やカウンセリングサービスにご相談ください。</div>
@@ -799,17 +781,6 @@ const ZONES = [
   }
 ];
 
-// ========== 気づきカードメッセージ ==========
-const KIZUKI_MESSAGES = {
-  1: '「目上の人に逆らえない」のは、あなたが弱いからじゃない。江戸幕府が260年かけて仕込んだ"掟"が、まだ動いているだけです。',
-  2: '「空気を読めないと怖い」のは、あなたが臆病だからじゃない。"和を乱すな"という江戸の掟が、今もあなたを縛っているだけです。',
-  3: '「他人の問題まで背負ってしまう」のは、あなたがお人よしだからじゃない。江戸時代のOS（思想）にある「滅私奉公」という掟が、「自分の問題」と「他人の問題」をごちゃまぜにしているだけです。',
-  4: '「自分はダメだ」と思うのは、あなたが本当にダメだからじゃない。江戸の掟が支配する社会では、自分を責める人ほど「従順で扱いやすい」と重宝された。その名残が、自分を低く見積もる癖として残っているだけです。',
-  5: '「完璧じゃないと怖い」のは、あなたの性格のせいじゃない。「失敗＝恥」という江戸の掟が、80点の自分を許さないだけです。',
-  6: '「〜すべき」が頭から離れないのは、あなたが頑固だからじゃない。江戸時代から続く、変化を許さない"正しさ"が、柔軟さにブレーキをかけているだけです。',
-  7: '「人にどう見られるか」が気になるのは、あなたが気にしすぎなんじゃない。江戸時代から続く"恥の文化"という監視装置が、まだ作動しているだけです。'
-};
-
 // 共通メッセージ（全ゾーン共通）
 const COMMON_MSG = `
 <span class="heading">生きづらさを感じている人たちの特徴</span>
@@ -972,9 +943,6 @@ function render() {
 
   // 書籍説明文
   document.getElementById('bookDesc').innerHTML = zone.bookDesc;
-
-  // 気づきカード初期化
-  initKizukiCanvas();
 }
 
 function animateCount(id, target) {
@@ -1007,134 +975,6 @@ function getTopCategory() {
     if (pct > topPct) { topPct = pct; topId = parseInt(id); }
   }
   return topId;
-}
-
-function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-  const chars = text.split('');
-  let line = '';
-  let currentY = y;
-  for (let i = 0; i < chars.length; i++) {
-    const testLine = line + chars[i];
-    const metrics = ctx.measureText(testLine);
-    if (metrics.width > maxWidth && line.length > 0) {
-      ctx.fillText(line, x, currentY);
-      line = chars[i];
-      currentY += lineHeight;
-    } else {
-      line = testLine;
-    }
-  }
-  ctx.fillText(line, x, currentY);
-  return currentY;
-}
-
-function drawKizukiCard(canvas, catName, catMsg) {
-  const S = 1080;
-  canvas.width = S;
-  canvas.height = S;
-  const ctx = canvas.getContext('2d');
-
-  // 背景
-  ctx.fillStyle = '#1a1208';
-  ctx.fillRect(0, 0, S, S);
-
-  // ドットパターン
-  ctx.fillStyle = 'rgba(200,134,10,0.07)';
-  for (let x = 20; x < S; x += 40) {
-    for (let y = 20; y < S; y += 40) {
-      ctx.beginPath();
-      ctx.arc(x, y, 1.5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-
-  // 外枠
-  ctx.strokeStyle = 'rgba(200,134,10,0.25)';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(48, 48, S - 96, S - 96);
-
-  // 上部ライン装飾
-  const grad = ctx.createLinearGradient(100, 0, S - 100, 0);
-  grad.addColorStop(0, 'transparent');
-  grad.addColorStop(0.5, 'rgba(200,134,10,0.5)');
-  grad.addColorStop(1, 'transparent');
-  ctx.strokeStyle = grad;
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(100, 160); ctx.lineTo(S - 100, 160); ctx.stroke();
-
-  // 上部テキスト
-  ctx.textAlign = 'center';
-  ctx.fillStyle = 'rgba(160,140,106,0.7)';
-  ctx.font = "26px 'Noto Serif JP', serif";
-  ctx.fillText('あなたの中で一番強く動いていたOS', S / 2, 220);
-
-  // カテゴリー名（大きく）
-  ctx.fillStyle = '#f5e6c8';
-  ctx.font = "bold 64px 'Noto Serif JP', serif";
-  ctx.fillText(catName, S / 2, 330);
-
-  // 区切りダイヤ
-  ctx.save();
-  ctx.translate(S / 2, 390);
-  ctx.rotate(Math.PI / 4);
-  ctx.fillStyle = '#C8860A';
-  ctx.fillRect(-6, -6, 12, 12);
-  ctx.restore();
-
-  // メッセージ本文（自動折り返し）
-  ctx.fillStyle = '#f0e4cc';
-  ctx.font = "38px 'Noto Serif JP', serif";
-  ctx.textAlign = 'center';
-  const lastY = wrapText(ctx, catMsg, S / 2, 470, S - 200, 62);
-
-  // 下部ライン装飾
-  const bottomLineY = Math.max(lastY + 60, 750);
-  const grad2 = ctx.createLinearGradient(100, 0, S - 100, 0);
-  grad2.addColorStop(0, 'transparent');
-  grad2.addColorStop(0.5, 'rgba(200,134,10,0.5)');
-  grad2.addColorStop(1, 'transparent');
-  ctx.strokeStyle = grad2;
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(100, bottomLineY); ctx.lineTo(S - 100, bottomLineY); ctx.stroke();
-
-  // 「それは、あなたの性格のせいじゃありません。」
-  ctx.fillStyle = '#5ab8ba';
-  ctx.font = "bold 30px 'Noto Serif JP', serif";
-  ctx.textAlign = 'center';
-  ctx.fillText('それは、あなたの性格のせいじゃありません。', S / 2, bottomLineY + 60);
-
-  // 最下部
-  ctx.fillStyle = 'rgba(160,140,106,0.7)';
-  ctx.font = "24px 'Noto Serif JP', serif";
-  ctx.fillText('令和脳vs江戸脳 思考OSチェック', S / 2, S - 160);
-
-  ctx.font = "20px 'Noto Sans JP', sans-serif";
-  ctx.fillStyle = 'rgba(143,217,218,0.6)';
-  ctx.fillText('tariki-labo.github.io/edo-reiwa/', S / 2, S - 120);
-
-  ctx.fillStyle = 'rgba(200,134,10,0.5)';
-  ctx.font = "22px 'Noto Sans JP', sans-serif";
-  ctx.fillText('#朱子ハラ', S / 2, S - 85);
-}
-
-function initKizukiCanvas() {
-  const topCatId = getTopCategory();
-  const catName = CAT_NAMES[topCatId] || '権威服従';
-  const catMsg = KIZUKI_MESSAGES[topCatId] || KIZUKI_MESSAGES[1];
-  const canvas = document.getElementById('kizukiCanvas');
-  if (canvas) drawKizukiCard(canvas, catName, catMsg);
-}
-
-function downloadKizukiImage() {
-  const topCatId = getTopCategory();
-  const catName = CAT_NAMES[topCatId] || '権威服従';
-  const catMsg = KIZUKI_MESSAGES[topCatId] || KIZUKI_MESSAGES[1];
-  const offscreen = document.createElement('canvas');
-  drawKizukiCard(offscreen, catName, catMsg);
-  const a = document.createElement('a');
-  a.href = offscreen.toDataURL('image/png');
-  a.download = '気づきカード_' + catName + '.png';
-  a.click();
 }
 
 render();
