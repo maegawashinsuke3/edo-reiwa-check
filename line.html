@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
-<title>LINE登録ページへ移動します…</title>
+<title>LINE登録ページへご案内します</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-12W0CMVX96"></script>
 <script>
@@ -12,23 +12,40 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-12W0CMVX96');
-  gtag('event', 'line_redirect', { transport_type: 'beacon' });
 </script>
 <style>
   body { font-family: -apple-system, "Hiragino Sans", sans-serif; background: #F8FCFB; color: #0B3D3A; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-  .box { text-align: center; padding: 24px; }
+  .box { text-align: center; padding: 24px; max-width: 480px; }
   a { color: #00857D; font-weight: bold; }
+  #pc { display: none; }
+  .qr { width: 220px; height: 220px; margin: 16px auto; display: block; border: 1px solid #D6ECE7; border-radius: 8px; }
+  .note { font-size: 14px; color: #52746F; }
 </style>
 </head>
 <body>
 <div class="box">
-  <p>LINE登録ページへ移動しています…</p>
-  <p>自動で切り替わらない場合は<br><a href="https://app.the-online-class.com/marketing_liff_apps/73165a29aa6862ea039b2bc66157fb55/friendship?marketing_scenario_id=oQM0IDI6MXb&route_id=oITOxAiOyJXb">こちらをタップ</a>してください。</p>
+  <div id="mobile">
+    <p>LINE登録ページへ移動しています…</p>
+    <p>自動で切り替わらない場合は<br><a href="https://app.the-online-class.com/marketing_liff_apps/73165a29aa6862ea039b2bc66157fb55/friendship?marketing_scenario_id=oQM0IDI6MXb&route_id=oITOxAiOyJXb">こちらをタップ</a>してください。</p>
+  </div>
+  <div id="pc">
+    <p><strong>お手持ちのスマートフォンのカメラで、<br>下のQRコードを読み取ってください。</strong></p>
+    <img class="qr" alt="LINE友だち追加用QRコード" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcgAAAHIAQAAAADi2kdHAAAEDElEQVR4nO1c0a5UMQicMff/f3l8YIAeja7xwdNamqi7vXdiCYHCAKXwl+vb3wIHOchBDnKQgzwe+QUAjM8CRYGK7yIggIAYt2z+BHrptIP8tL4AhH5CqyIEgRAJMVVNWZf9m2fJeQsy9AmbogghTJSQtQfFfiiUuXuWnLcgv55fS49C2KZAUPa9j9zmLDlvQT71SSn9rv+lFAoFn+o8TM5bkNanVWXPGn/CA8O3qBBBUSn1LDnvQpKkI59wrRXa2t1GiMv1N0+U8/9HfgGLzYUtUt7zPm24fNygZ8l5CzLyT+ciWpJNKswzdJiZZ+csh8l5F5LKe1KASIqiAAkAGTxDqDv2Xj3tIH+9Kr5VUweh1HCxqeKFJMLwQ/siWd40AlgGN2SXS8e6Qumxvp8l5y3IsM+g9lKVirg2FBq832q9fO+0g/xDpMzEI3kgx7gVIfFJGr172kH+HulQNj8yLlEBJCWxiyyOdl897SA/ImWXC0GupFRmEgGRTCiIGeCeKOf/j8z6pxD3JE0kMJjbjItggmFR6Fly3oJkmmBoKnWbEVDyuDbT3Jr4dm9keFgJzBonAJc8fX9KYJdfXj3tIH+9HiRB2WAxt2m3z18bf7stsqiCvBu7UwFLPNTVM2Qh9Cw5b0GmPtXfmfQeM6ZF/w1g8s+Nkcn3ZU8fqjy29H+Fn+2d4fu2RaYL7Q6TSlqCzm0Tteed+3NnJCTzA1FWSb+r2gGg/KTcl3SWnJchlfqiVMbZVyYzwBUgjX3ui6zKGIAlhn1GuN0z7zX3565IljGiUs28NLPTxMRRXavDD+2LrP6ECGFTnUHSmh1yuYwmAqf+uTEy5x0yEOq2Lys4lkC3nyRJf5ictyCLj690JMn5sFJWMbu5hPG3+yLdf7sWTroT3sMrRHG4Ncxympy3IDseYnlXMRncooti25/G3+6LzH6wJA+4qrMi355G6gb5s+S8BZnzSHSa6S4E5O0Z/rZGWpYehrPkvAop93/FBdnRD0XWRJIzlrLQA+W8AJn9Q9nc128n1OCgG+XFekXhtdMO8tNKPkEV04azDS/riYcl0H33tIP8tGqY7MeGLzf1LT1iD3rhNDlvQVb90921PbiCZhXSfKv2+dZpB/lpLf0my/DRUk5Rk0c9wT32uSuy7Q2LgXY3bjXmlqozwD1LzluQj/fB0gTp7MQZKWuUcH3p5Cw5b0E+3geLV8Fywmytf2bamSp96bSD/EPk8rzJEuaSkDwSGmNnbJd8pJy3IesJEyJL2oz3auIpIgC24R1OO8if1g/vvcEP9RXn16PZfsNPnHnBjZGP98E6oLU5Mn0vzfY1/XCYnLcge36lO+DdH/9gi9Y+6+GH9kU+8s9/9H8OcpCDHOQgB3k68js1mUSKJWu9EwAAAABJRU5ErkJggg==">
+    <p class="note">LINEの友だち追加は、スマートフォンのLINEアプリから行う必要があるため、パソコンからはご登録いただけません。</p>
+  </div>
 </div>
 <script>
-  setTimeout(function() {
-    location.replace("https://app.the-online-class.com/marketing_liff_apps/73165a29aa6862ea039b2bc66157fb55/friendship?marketing_scenario_id=oQM0IDI6MXb&route_id=oITOxAiOyJXb");
-  }, 400);
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    gtag('event', 'line_redirect', { transport_type: 'beacon' });
+    setTimeout(function() {
+      location.replace("https://app.the-online-class.com/marketing_liff_apps/73165a29aa6862ea039b2bc66157fb55/friendship?marketing_scenario_id=oQM0IDI6MXb&route_id=oITOxAiOyJXb");
+    }, 400);
+  } else {
+    gtag('event', 'line_redirect_pc', { transport_type: 'beacon' });
+    document.getElementById('mobile').style.display = 'none';
+    document.getElementById('pc').style.display = 'block';
+  }
 </script>
 </body>
 </html>
